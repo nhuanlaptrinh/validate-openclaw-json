@@ -125,6 +125,12 @@ openclaw.json
 #### Quy tắc 5: Không có account mồ côi
 - Mỗi account Telegram (trừ `default`) nên có ít nhất 1 binding trỏ đến.
 
+#### Quy tắc 6: Mỗi bot token phải có workspace riêng (BẮT BUỘC)
+- Mỗi Telegram bot token (mỗi account có botToken) **PHẢI** ứng với một agent có **workspace riêng biệt**.
+- KHÔNG được dùng chung workspace giữa các bot token khác nhau — sẽ gây xung đột dữ liệu.
+- Workspace nên đặt theo convention: `workspace_<agent_id>` (VD: `workspace_trolyai`, `workspace_laptrinh121`).
+- Nếu phát hiện 2 agent trở lên dùng chung workspace → báo lỗi.
+
 ### Bước 5: Báo cáo kết quả
 Báo cáo cho user theo format:
 
@@ -196,9 +202,9 @@ Sửa `agents.defaults.model.primary` và có thể cập nhật `fallbacks`.
 Sửa `gateway.port` (phải 1-65535).
 
 ## Lưu ý đặc biệt
-- **Workspace trên Windows**: Dùng `\\` (double backslash), VD: `C:\\Users\\user\\.openclaw\\workspace`
-- **Workspace trên Linux**: Dùng `/`, VD: `/root/.openclaw/workspace`
-- **Mỗi agent nên có workspace riêng** để tránh xung đột dữ liệu
+- **⚠️ 1 Bot Token = 1 Workspace RIÊNG (BẮT BUỘC)**: Mỗi Telegram bot token phải có một workspace riêng biệt. KHÔNG BAO GIỜ dùng chung workspace giữa các bot khác nhau. Convention đặt tên: `workspace_<agent_id>`.
+- **Workspace trên Windows**: Dùng `\\` (double backslash), VD: `C:\\Users\\user\\.openclaw\\workspace_agentname`
+- **Workspace trên Linux**: Dùng `/`, VD: `/root/.openclaw/workspace_agentname`
 - **Account `default`** là cấu hình fallback, luôn giữ và KHÔNG cần botToken
 - **`plugins.entries.telegram.enabled`** phải là `true` để Telegram hoạt động
 - Khi sửa file, luôn đảm bảo JSON hợp lệ (dùng indent 2 spaces)
